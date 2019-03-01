@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-mvc-core/spring-mvc-core.iml" filepath="$PROJECT_DIR$/spring-mvc-core/spring-mvc-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mvc-demo.iml" filepath="$PROJECT_DIR$/spring-mvc-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mvc-eureka/spring-mvc-eureka.iml" filepath="$PROJECT_DIR$/spring-mvc-eureka/spring-mvc-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mvc-feign/spring-mvc-feign.iml" filepath="$PROJECT_DIR$/spring-mvc-feign/spring-mvc-feign.iml" />
+    </modules>
+  </component>
+</project>
