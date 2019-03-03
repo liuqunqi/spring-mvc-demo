@@ -1,9 +1,11 @@
 package com.company.controller;
 
 import com.company.clients.HelloClient;
+import com.company.clients.Person;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,10 +35,15 @@ public class DemoController {
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     @ResponseBody
     public String hello(@RequestParam String name) {
-        Map map= new HashMap<>();
-        map.put("name",name);
-       return userClient.sayHello(JSONObject.valueToString(map));
-        //return JSONObject.fromObject(name).toString();
+        Map map = new HashMap<>();
+        map.put("name", name);
+        return userClient.sayHello(JSONObject.valueToString(map));
+    }
+
+    @RequestMapping(value = "/updatePerson", method = RequestMethod.POST)
+    @ResponseBody
+    public Person updatePerson(@RequestBody Person person) {
+        return userClient.updatePerson(person);
     }
 
 }

@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Spring MVC equivalent of OpenFeign's {@link QueryMap} parameter annotation.
+ * Spring MVC equivalent of OpenFeign's {@link QueryMap} parameters annotation.
  *
  * @author Aram Peres
  * @see QueryMap
@@ -44,7 +44,7 @@ public @interface SpringQueryMap {
 
 	/**
 	 * @see QueryMap#encoded()
-	 * @return Specifies whether parameter names and values are already encoded.
+	 * @return Specifies whether parameters names and values are already encoded.
 	 */
 	@AliasFor("value")
 	boolean encoded() default false;

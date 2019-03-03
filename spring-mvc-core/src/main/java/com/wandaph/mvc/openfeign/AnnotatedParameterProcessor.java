@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
- * Feign contract method parameter processor.
+ * Feign contract method parameters processor.
  *
  * @author Jakub Narloch
  * @author Abhijit Sarkar
@@ -38,18 +38,18 @@ public interface AnnotatedParameterProcessor {
     Class<? extends Annotation> getAnnotationType();
 
     /**
-     * Process the annotated parameter.
+     * Process the annotated parameters.
      *
-     * @param context    the parameter context
+     * @param context    the parameters context
      * @param annotation the annotation instance
      * @param method     the method that contains the annotation
-     * @return whether the parameter is http
+     * @return whether the parameters is http
      */
     boolean processArgument(AnnotatedParameterContext context, Annotation annotation,
                             Method method);
 
     /**
-     * Specifies the parameter context.
+     * Specifies the parameters context.
      *
      * @author Jakub Narloch
      */
@@ -63,24 +63,24 @@ public interface AnnotatedParameterProcessor {
         MethodMetadata getMethodMetadata();
 
         /**
-         * Retrieves the index of the parameter.
+         * Retrieves the index of the parameters.
          *
-         * @return the parameter index
+         * @return the parameters index
          */
         int getParameterIndex();
 
         /**
-         * Sets the parameter name.
+         * Sets the parameters name.
          *
-         * @param name the name of the parameter
+         * @param name the name of the parameters
          */
         void setParameterName(String name);
 
         /**
-         * Sets the template parameter.
+         * Sets the template parameters.
          *
-         * @param name the template parameter
-         * @param rest the existing parameter values
+         * @param name the template parameters
+         * @param rest the existing parameters values
          * @return parameters
          */
         Collection<String> setTemplateParameter(String name, Collection<String> rest);

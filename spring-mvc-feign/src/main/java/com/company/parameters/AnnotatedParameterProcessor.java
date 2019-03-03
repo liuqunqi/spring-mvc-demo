@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.company;
+package com.company.parameters;
 
 import feign.MethodMetadata;
 
@@ -23,8 +23,8 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
- * Feign contract method parameters processor.
- *
+ * Feign contract method parameter processor.
+ *  方法参数处理器
  * @author Jakub Narloch
  * @author Abhijit Sarkar
  */
@@ -37,17 +37,17 @@ public interface AnnotatedParameterProcessor {
 	Class<? extends Annotation> getAnnotationType();
 
 	/**
-	 * Process the annotated parameters.
-	 * @param context the parameters context
+	 * Process the annotated parameter.
+	 * @param context the parameter context
 	 * @param annotation the annotation instance
 	 * @param method the method that contains the annotation
-	 * @return whether the parameters is http
+	 * @return whether the parameter is http
 	 */
 	boolean processArgument(AnnotatedParameterContext context, Annotation annotation,
                             Method method);
 
 	/**
-	 * Specifies the parameters context.
+	 * Specifies the parameter context.
 	 *
 	 * @author Jakub Narloch
 	 */
@@ -60,21 +60,21 @@ public interface AnnotatedParameterProcessor {
 		MethodMetadata getMethodMetadata();
 
 		/**
-		 * Retrieves the index of the parameters.
-		 * @return the parameters index
+		 * Retrieves the index of the parameter.
+		 * @return the parameter index
 		 */
 		int getParameterIndex();
 
 		/**
-		 * Sets the parameters name.
-		 * @param name the name of the parameters
+		 * Sets the parameter name.
+		 * @param name the name of the parameter
 		 */
 		void setParameterName(String name);
 
 		/**
-		 * Sets the template parameters.
-		 * @param name the template parameters
-		 * @param rest the existing parameters values
+		 * Sets the template parameter.
+		 * @param name the template parameter
+		 * @param rest the existing parameter values
 		 * @return parameters
 		 */
 		Collection<String> setTemplateParameter(String name, Collection<String> rest);

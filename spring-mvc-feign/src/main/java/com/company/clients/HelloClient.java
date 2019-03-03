@@ -26,10 +26,14 @@ public interface HelloClient {
     String sayHello(@RequestParam("name") String name);
 
 
-    /*  @RequestLine("POST /save")
-    @Headers("Content-type: application/json")*/
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    /* @RequestLine("POST /savePerson")
+     @Headers("Content-type: application/json")*/
+    @RequestMapping(value = "/savePerson", method = RequestMethod.POST)
     @ResponseBody
     String savePerson(@RequestBody Person person);
+
+    @RequestMapping(value = "/updatePerson", method = RequestMethod.POST)
+    @ResponseBody
+    Person updatePerson(@RequestBody Person person);
 
 }

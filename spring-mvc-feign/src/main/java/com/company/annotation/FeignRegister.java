@@ -22,6 +22,10 @@
  */
 package com.company.annotation;
 
+import com.company.support.HttpMessageConverters;
+import com.company.support.SpringDecoder;
+import com.company.support.SpringEncoder;
+import com.company.support.SpringMvcContract;
 import feign.Contract.BaseContract;
 import feign.Feign;
 import feign.MethodMetadata;
@@ -35,6 +39,8 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
@@ -55,6 +61,7 @@ public class FeignRegister implements BeanFactoryPostProcessor {
     private static final String SCAN_BASE_PACKAGE = "com.company.clients";
     private static Logger log = LoggerFactory.getLogger(FeignRegister.class);
 
+
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         Reflections f = new Reflections(SCAN_BASE_PACKAGE);
@@ -63,7 +70,7 @@ public class FeignRegister implements BeanFactoryPostProcessor {
             return;
         }
         Set<Class<?>> set = f.getTypesAnnotatedWith(FeignApi.class);
-        Feign.Builder builder = Feign.builder().encoder(new JacksonEncoder());
+        Feign.Builder builder = getFeignBuilder();
         for (Class<?> targetClass : set) {
             FeignApi annotation = targetClass.getAnnotation(FeignApi.class);
             Object target = builder.target(targetClass, annotation.serviceUrl());
@@ -74,10 +81,11 @@ public class FeignRegister implements BeanFactoryPostProcessor {
     public Feign.Builder getFeignBuilder() {
         Feign.Builder builder = Feign.builder()
                 //使用Jackson进行参数处理，如果有必要可以自行定义
-                .encoder(new JacksonEncoder())
-                .decoder(new JacksonDecoder())
+                .encoder(new SpringEncoder())
+                .decoder(new SpringDecoder())
+                .contract(new SpringMvcContract())
                 //超时处理
-                .options(new Request.Options(1000, 3500))
+                /*.options(new Request.Options(1000, 3500))
                 .retryer(new Retryer.Default(5000, 5000, 3))
                 //每次请求时，自定义内部请求头部信息，例如：权限相关的信息
                 .requestInterceptor(new RequestInterceptor() {
@@ -86,38 +94,8 @@ public class FeignRegister implements BeanFactoryPostProcessor {
                         requestTemplate.header("Content-Type", "application/json");
                         requestTemplate.header("Accept", "application/json");
                     }
-                });
+                })*/;
         return builder;
     }
-
-    /**
-     * 注解解释器
-     */
-    class MyContract extends BaseContract {
-
-        /**
-         * 基于方法的注解
-         *
-         * @param methodMetadata
-         * @param annotation
-         * @param method
-         */
-        @Override
-        protected void processAnnotationOnMethod(MethodMetadata methodMetadata, Annotation annotation, Method method) {
-            if (RequestMapping.class.isInstance(annotation)) {
-                RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
-                String[] url = requestMapping.value();
-                RequestMethod[] requestMethods = requestMapping.method();
-                methodMetadata.template().append(url.length == 0 ? null : url[0]);
-                methodMetadata.template().method(requestMethods.length == 0 ? RequestMethod.POST.name() : requestMethods[0].name());
-            }
-        }
-
-        @Override
-        protected boolean processAnnotationsOnParameter(MethodMetadata methodMetadata, Annotation[] annotations, int i) {
-            return false;
-        }
-    }
-
 
 }

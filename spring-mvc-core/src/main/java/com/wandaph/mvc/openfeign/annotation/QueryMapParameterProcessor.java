@@ -24,7 +24,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * {@link SpringQueryMap} parameter processor.
+ * {@link SpringQueryMap} parameters processor.
  *
  * @author Aram Peres
  * @see AnnotatedParameterProcessor

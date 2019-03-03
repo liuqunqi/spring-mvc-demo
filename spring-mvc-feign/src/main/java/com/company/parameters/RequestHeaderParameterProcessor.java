@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.wandaph.mvc.openfeign.annotation;
+package com.company.parameters;
 
-import com.wandaph.mvc.openfeign.AnnotatedParameterProcessor;
 import feign.MethodMetadata;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -29,7 +28,7 @@ import static feign.Util.checkState;
 import static feign.Util.emptyToNull;
 
 /**
- * {@link RequestHeader} parameters processor.
+ * {@link RequestHeader} parameter processor.
  *
  * @author Jakub Narloch
  * @author Abhijit Sarkar
@@ -45,15 +44,13 @@ public class RequestHeaderParameterProcessor implements AnnotatedParameterProces
 	}
 
 	@Override
-	public boolean processArgument(AnnotatedParameterContext context,
-			Annotation annotation, Method method) {
+	public boolean processArgument(AnnotatedParameterContext context, Annotation annotation, Method method) {
 		int parameterIndex = context.getParameterIndex();
 		Class<?> parameterType = method.getParameterTypes()[parameterIndex];
 		MethodMetadata data = context.getMethodMetadata();
 
 		if (Map.class.isAssignableFrom(parameterType)) {
-			checkState(data.headerMapIndex() == null,
-					"Header map can only be present once.");
+			checkState(data.headerMapIndex() == null, "Header map can only be present once.");
 			data.headerMapIndex(parameterIndex);
 
 			return true;
@@ -61,13 +58,11 @@ public class RequestHeaderParameterProcessor implements AnnotatedParameterProces
 
 		String name = ANNOTATION.cast(annotation).value();
 		checkState(emptyToNull(name) != null,
-				"RequestHeader.value() was empty on parameters %s", parameterIndex);
+				"RequestHeader.value() was empty on parameter %s", parameterIndex);
 		context.setParameterName(name);
 
-		Collection<String> header = context.setTemplateParameter(name,
-				data.template().headers().get(name));
+		Collection<String> header = context.setTemplateParameter(name, data.template().headers().get(name));
 		data.template().header(name, header);
 		return true;
 	}
-
 }

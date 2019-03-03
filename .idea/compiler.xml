@@ -19,7 +19,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="spring-mvc-core" target="1.6" />
-      <module name="spring-mvc-demo" target="1.5" />
+      <module name="spring-mvc-demo" target="1.7" />
       <module name="spring-mvc-eureka" target="7" />
       <module name="spring-mvc-feign" target="7" />
       <module name="spring-mvc-web" target="7" />

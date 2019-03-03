@@ -30,7 +30,7 @@ import static feign.Util.checkState;
 import static feign.Util.emptyToNull;
 
 /**
- * {@link RequestParam} parameter processor.
+ * {@link RequestParam} parameters processor.
  *
  * @author Jakub Narloch
  * @author Abhijit Sarkar
@@ -63,7 +63,7 @@ public class RequestParamParameterProcessor implements AnnotatedParameterProcess
 		RequestParam requestParam = ANNOTATION.cast(annotation);
 		String name = requestParam.value();
 		checkState(emptyToNull(name) != null,
-				"RequestParam.value() was empty on parameter %s", parameterIndex);
+				"RequestParam.value() was empty on parameters %s", parameterIndex);
 		context.setParameterName(name);
 
 		Collection<String> query = context.setTemplateParameter(name,

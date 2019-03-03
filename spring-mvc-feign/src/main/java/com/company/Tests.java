@@ -22,8 +22,9 @@
  */
 package com.company;
 
-import com.company.annotation.MyContract;
 import com.company.clients.HelloClient;
+import com.company.clients.Person;
+import com.company.support.SpringMvcContract;
 import feign.Feign;
 import feign.Feign.Builder;
 import feign.jackson.JacksonEncoder;
@@ -35,16 +36,15 @@ import feign.jackson.JacksonEncoder;
 public class Tests {
 
     public static void main(String[] args) {
-        Builder build = Feign.builder().encoder(new JacksonEncoder()).contract(new MyContract());
+        Builder build = Feign.builder().encoder(new JacksonEncoder()).contract(new SpringMvcContract());
         HelloClient helloClient = build.target(HelloClient.class, "http://localhost:8762");
-       /* PersonClient client = build.target(PersonClient.class, "http://localhost:8762");
+        String result = helloClient.sayHello("Ailensss");
+        System.out.println(result);
+        //----------------------------------
         Person person = new Person();
         person.setSex("1");
         person.setName("angels");
-        String result = client.savePerson(person);
-        System.out.println(result);*/
-       // String result2 = userClient.hello("{" + "\"name\":\"Ailensss\"" + "}");
-        String result2 = helloClient.sayHello("Ailensss");
+        Person result2 = helloClient.updatePerson(person);
         System.out.println(result2);
     }
 }

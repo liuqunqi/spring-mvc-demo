@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.wandaph.mvc.openfeign.annotation;
+package com.company.parameters;
 
-import com.wandaph.mvc.openfeign.AnnotatedParameterProcessor;
 import feign.MethodMetadata;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -29,15 +28,15 @@ import static feign.Util.checkState;
 import static feign.Util.emptyToNull;
 
 /**
- * {@link RequestHeader} parameters processor.
+ * {@link RequestParam} parameter processor.
  *
  * @author Jakub Narloch
  * @author Abhijit Sarkar
  * @see AnnotatedParameterProcessor
  */
-public class RequestHeaderParameterProcessor implements AnnotatedParameterProcessor {
+public class RequestParamParameterProcessor implements AnnotatedParameterProcessor {
 
-	private static final Class<RequestHeader> ANNOTATION = RequestHeader.class;
+	private static final Class<RequestParam> ANNOTATION = RequestParam.class;
 
 	@Override
 	public Class<? extends Annotation> getAnnotationType() {
@@ -45,29 +44,28 @@ public class RequestHeaderParameterProcessor implements AnnotatedParameterProces
 	}
 
 	@Override
-	public boolean processArgument(AnnotatedParameterContext context,
-			Annotation annotation, Method method) {
+	public boolean processArgument(AnnotatedParameterContext context, Annotation annotation, Method method) {
 		int parameterIndex = context.getParameterIndex();
 		Class<?> parameterType = method.getParameterTypes()[parameterIndex];
 		MethodMetadata data = context.getMethodMetadata();
 
 		if (Map.class.isAssignableFrom(parameterType)) {
-			checkState(data.headerMapIndex() == null,
-					"Header map can only be present once.");
-			data.headerMapIndex(parameterIndex);
+			checkState(data.queryMapIndex() == null, "Query map can only be present once.");
+			data.queryMapIndex(parameterIndex);
 
 			return true;
 		}
 
-		String name = ANNOTATION.cast(annotation).value();
+		RequestParam requestParam = ANNOTATION.cast(annotation);
+		String name = requestParam.value();
 		checkState(emptyToNull(name) != null,
-				"RequestHeader.value() was empty on parameters %s", parameterIndex);
+				"RequestParam.value() was empty on parameter %s",
+				parameterIndex);
 		context.setParameterName(name);
 
-		Collection<String> header = context.setTemplateParameter(name,
-				data.template().headers().get(name));
-		data.template().header(name, header);
+		Collection<String> query = context.setTemplateParameter(name,
+				data.template().queries().get(name));
+		data.template().query(name, query);
 		return true;
 	}
-
 }

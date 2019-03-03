@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.wandaph.mvc.openfeign.annotation;
+package com.company.parameters;
 
-import com.wandaph.mvc.openfeign.AnnotatedParameterProcessor;
 import feign.MethodMetadata;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,17 +28,14 @@ import static feign.Util.checkState;
 import static feign.Util.emptyToNull;
 
 /**
- * {@link PathVariable} parameters processor.
- * 参数处理器
+ * {@link PathVariable} parameter processor.
+ *
  * @author Jakub Narloch
  * @author Abhijit Sarkar
  * @see AnnotatedParameterProcessor
  */
 public class PathVariableParameterProcessor implements AnnotatedParameterProcessor {
 
-	/**
-	 * PathVariable 注解
-	 */
 	private static final Class<PathVariable> ANNOTATION = PathVariable.class;
 
 	@Override
@@ -47,20 +43,11 @@ public class PathVariableParameterProcessor implements AnnotatedParameterProcess
 		return ANNOTATION;
 	}
 
-	/**
-	 *  处理带注释的参数
-	 * @param context    the parameters context  指定参数上下文
-	 * @param annotation the annotation instance
-	 * @param method     the method that contains the annotation
-	 * @return
-	 */
 	@Override
-	public boolean processArgument(AnnotatedParameterContext context,
-			Annotation annotation, Method method) {
+	public boolean processArgument(AnnotatedParameterContext context, Annotation annotation, Method method) {
 		String name = ANNOTATION.cast(annotation).value();
 		checkState(emptyToNull(name) != null,
-				"PathVariable annotation was empty on param %s.",
-				context.getParameterIndex());
+				"PathVariable annotation was empty on param %s.", context.getParameterIndex());
 		context.setParameterName(name);
 
 		MethodMetadata data = context.getMethodMetadata();
@@ -85,5 +72,4 @@ public class PathVariableParameterProcessor implements AnnotatedParameterProcess
 		}
 		return false;
 	}
-
 }

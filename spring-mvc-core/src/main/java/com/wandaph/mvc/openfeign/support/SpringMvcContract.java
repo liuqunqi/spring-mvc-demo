@@ -270,7 +270,7 @@ public class SpringMvcContract extends Contract.BaseContract
 					.get(parameterAnnotation.annotationType());
 			if (processor != null) {
 				Annotation processParameterAnnotation;
-				// synthesize, handling @AliasFor, while falling back to parameter name on
+				// synthesize, handling @AliasFor, while falling back to parameters name on
 				// missing String #value():
 				processParameterAnnotation = synthesizeWithMethodParameterNameAsFallbackValue(
 						parameterAnnotation, method, paramIndex);
@@ -368,7 +368,7 @@ public class SpringMvcContract extends Contract.BaseContract
 
 	private boolean shouldAddParameterName(int parameterIndex, Type[] parameterTypes,
 			String[] parameterNames) {
-		// has a parameter name
+		// has a parameters name
 		return parameterNames != null && parameterNames.length > parameterIndex
 		// has a type
 				&& parameterTypes != null && parameterTypes.length > parameterIndex;
